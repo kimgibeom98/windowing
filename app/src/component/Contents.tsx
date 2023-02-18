@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const Contents = ({value}) => {
+const Contents = ({value} : Arrya[]) => {
   return (
     value.map((items, index) => (
       <ContentBox key={index} className="ContentScroll" style={{top: items.id * 150}} >
