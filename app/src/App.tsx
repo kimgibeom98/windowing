@@ -3,21 +3,28 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import styled from "styled-components";
 import ContentBox from './component/Contents';
-let targetSection; 
+
+// interface ValuesInfo {
+//   id : number;
+//   name : string;
+//   age : number;
+//   job : string;
+//   email : string;
+// }
 
 function App() {
   const [data, setData] = useState([]);
-  const [value, setValue] = useState([]);
-  const [startIndex, setstartIndex] = useState();
-  const [endIndex, setendIndex] = useState(6);
+  const [values, setValues] = useState([]);
+  const [startIndex, setstartIndex] = useState<number>(0);
+  const [endIndex, setendIndex] = useState<number>(6);
 
   const getData = async () => {
-    targetSection = document.querySelector('section');
+    let targetSection = document.querySelector('section') as HTMLElement;
     try {
       const { data } = await axios.get('http://localhost:3003/accoounts');
       setData(data);
       setstartIndex(Math.floor(targetSection.scrollTop / 150));
-      setValue(data.slice(startIndex, endIndex))
+      setValues(data.slice(startIndex, endIndex))
     } catch (err) {
       console.log(err)
     }
@@ -28,18 +35,20 @@ function App() {
   }, [])
 
   useEffect(() => {
-
+    let targetSection = document.querySelector('section') as HTMLElement;
     targetSection.addEventListener('scroll', (e) => {
       setstartIndex(Math.floor(targetSection.scrollTop / 150));
       setendIndex(startIndex + 6);
-      setValue(data.slice(startIndex, endIndex))
+      setValues(data.slice(startIndex, endIndex))
     })
 
   }, [data, endIndex, startIndex])
 
+  console.log(values)
+
   return (
     <SectionBox className="App">
-      <ContentBox value={value} />
+      <ContentBox values={values} />
     </SectionBox>
   );
 }
