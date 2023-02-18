@@ -4,17 +4,17 @@ import './App.css';
 import styled from "styled-components";
 import ContentBox from './component/Contents';
 
-// interface ValuesInfo {
-//   id : number;
-//   name : string;
-//   age : number;
-//   job : string;
-//   email : string;
-// }
+interface ValuesInfo {
+  id : number;
+  name : string;
+  age : number;
+  job : string;
+  email : string;
+}
 
 function App() {
-  const [data, setData] = useState([]);
-  const [values, setValues] = useState([]);
+  const [data, setData] = useState<Array<ValuesInfo>>([]);
+  const [values, setValues] = useState<Array<ValuesInfo>>([]);
   const [startIndex, setstartIndex] = useState<number>(0);
   const [endIndex, setendIndex] = useState<number>(6);
 

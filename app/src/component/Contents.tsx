@@ -1,9 +1,17 @@
 import React from "react";
 import styled from "styled-components";
 
-const Contents = ({value} : Arrya[]) => {
+interface ValuesInfo{
+  id : number;
+  name : string;
+  age : number;
+  job : string;
+  email : string;
+}
+
+const Contents = ({values} : any) => {
   return (
-    value.map((items, index) => (
+    values.map((items : ValuesInfo , index : number) => (
       <ContentBox key={index} className="ContentScroll" style={{top: items.id * 150}} >
         <TitleName>{items.id}</TitleName>
         <span>나이 : {items.age}</span>
