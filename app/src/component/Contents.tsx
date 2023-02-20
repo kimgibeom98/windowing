@@ -11,8 +11,8 @@ interface ValuesInfo{
 
 const Contents = ({values} : any) => {
   return (
-    values.map((items : ValuesInfo , index : number) => (
-      <ContentBox key={index} className="ContentScroll" style={{top: items.id * 150}} >
+    values.map((items : ValuesInfo) => (
+      <ContentBox key={items.id} className="ContentScroll" style={{top: items.id * 150}} >
         <TitleName>{items.id}</TitleName>
         <span>나이 : {items.age}</span>
         <span>직업 : {items.job}</span>

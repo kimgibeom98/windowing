@@ -18,7 +18,7 @@ function App() {
   const [endIndex, setendIndex] = useState<number>(6);
 
   const getData = async () => {
-    let targetSection = document.querySelector('section') as HTMLElement;
+    const targetSection = document.querySelector('section') as HTMLElement;
     try {
       const { data } = await axios.get('http://localhost:3003/accoounts');
       setData(data);
@@ -34,7 +34,7 @@ function App() {
   }, [])
 
   useEffect(() => {
-    let targetSection = document.querySelector('section') as HTMLElement;
+    const targetSection = document.querySelector('section') as HTMLElement;
     targetSection.addEventListener('scroll', (e) => {
       setstartIndex(Math.floor(targetSection.scrollTop / 150));
       setendIndex(startIndex + 6);
@@ -42,8 +42,6 @@ function App() {
     })
 
   }, [data, endIndex, startIndex])
-
-  console.log(values)
 
   return (
     <SectionBox className="App">
