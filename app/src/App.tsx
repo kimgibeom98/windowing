@@ -1,50 +1,47 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import styled from "styled-components";
 import ContentBox from './component/Contents';
-
-interface ValuesInfo {
-  id : number;
-  name : string;
-  age : number;
-  job : string;
-  email : string;
-}
+import { UserProps } from './models/user';
 
 function App() {
-  const [data, setData] = useState<Array<ValuesInfo>>([]);
-  const [values, setValues] = useState<Array<ValuesInfo>>([]);
-  const [startIndex, setstartIndex] = useState<number>(0);
-  const [endIndex, setendIndex] = useState<number>(6);
+  const [data, setData] = useState<Array<UserProps>>([]);
+  const [values, setValues] = useState<Array<UserProps>>([]);
+  const [startIndex, setstartIndex] = useState(0);
+  const [endIndex, setendIndex] = useState(6);
+
+  const targetSection = useRef<HTMLDivElement>(null);
 
   const getData = async () => {
-    const targetSection = document.querySelector('section') as HTMLElement;
     try {
       const { data } = await axios.get('http://localhost:3003/accoounts');
       setData(data);
-      setstartIndex(Math.floor(targetSection.scrollTop / 150));
+      if (targetSection.current !== null) setstartIndex(Math.floor(targetSection.current.scrollTop / 150));
       setValues(data.slice(startIndex, endIndex))
     } catch (err) {
       console.log(err)
     }
-  }
+  };
 
   useEffect(() => {
     getData();
-  }, [])
+  }, []);
 
   useEffect(() => {
-    const targetSection = document.querySelector('section') as HTMLElement;
-    targetSection.addEventListener('scroll', (e) => {
-      setstartIndex(Math.floor(targetSection.scrollTop / 150));
-      setendIndex(startIndex + 6);
-      setValues(data.slice(startIndex, endIndex))
-    })
-
-  }, [data, endIndex, startIndex])
+    if (targetSection.current !== null) {
+      targetSection.current.addEventListener('scroll', (e) => {
+        if (targetSection.current !== null) {
+          const targetPosition = Math.floor(targetSection.current.scrollTop / 150);
+          targetPosition === 0 ? setstartIndex(0) : setstartIndex(targetPosition - 1);
+          setendIndex(targetPosition + 6);
+          setValues(data.slice(startIndex, endIndex))
+        }
+      })
+    }
+  }, [data, endIndex, startIndex]);
 
   return (
-    <SectionBox className="App">
+    <SectionBox className="App" ref={targetSection}>
       <ContentBox values={values} />
     </SectionBox>
   );
